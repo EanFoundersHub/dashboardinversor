@@ -1,21 +1,13 @@
-DASHBOARD INVERSOR V6 · MAPA CON IDENTIDAD VISUAL
+Dashboard Inversor ligero v3
 
-Esta versión reemplaza el mapa anterior por una versión visual más consistente
-con la identidad del dashboard y la presentación.
+Qué cambió:
+- Se separó el contenido en 4 vistas: Panorama, Metodología, Comparativo y Roadmap.
+- El mapa y el Top 5 son protagonistas en la vista inicial.
+- La tabla completa queda en una vista aparte para evitar saturación visual.
+- La metodología, pesos y perfiles de financiador quedan en una vista separada.
+- El roadmap, riesgos e información faltante quedan en una vista final.
+- Mantiene Poppins, navy, cyan y estética más limpia, alineada con la PPT.
 
-Archivos principales:
-- index.html
-- dashboard_inversor_v6_institucional.html
-- dashboard_inversor_v6_ios.html
-- mapa_colombia_identidad.png
-- data_original.json
-
-Publicación en GitHub Pages:
-1. Sube TODOS los archivos de esta carpeta a la raíz del repositorio.
-2. Verifica que index.html quede directamente en la raíz.
-3. Espera el despliegue.
-4. Abre: https://eanfoundershub.github.io/dashboardinversor/
-
-Nota:
-- Esta versión solo reemplaza el recurso visual del mapa.
-- Mantiene la funcionalidad del dashboard v5.
+Uso:
+- Abrir dashboard_inversor_ligero_v3.html en navegador.
+- En iOS, usar dashboard_inversor_ligero_v3_ios.html o extraer el ZIP en Archivos.

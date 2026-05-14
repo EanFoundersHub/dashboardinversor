@@ -1,10 +1,14 @@
-DASHBOARD INVERSOR V8.1 · AJUSTE DE MAPA
+DASHBOARD INVERSOR V9 · MAPA Y ROADMAP CORREGIDOS
 
-Ajustes realizados:
-- El mapa se reposicionó más arriba y ocupa mejor el contenedor.
-- Se recalibraron las coordenadas de los marcadores para mejorar la ubicación visual.
-- Se añadieron microajustes a universidades del Caribe y otras instituciones que se estaban viendo desplazadas.
-- Se mantiene la alternancia entre Top 5 y universo completo, además de los tooltips.
+Cambios visibles:
+- Nuevo nombre del recurso del mapa para evitar caché del navegador.
+- Marcadores recalibrados visualmente: universidades del Caribe y principales sedes ahora quedan sobre tierra.
+- El mapa se ubica más arriba y aprovecha mejor el bloque.
+- El universo completo queda como capa opcional; por defecto se prioriza la lista corta.
+- Roadmap redistribuido: bloque principal de fases a lo ancho y tarjetas de información/riesgos en una segunda fila.
 
 Publicación:
-Sube todos los archivos a la raíz del repositorio y reemplaza los anteriores.
+1. Sube todos los archivos de esta carpeta a la raíz del repositorio.
+2. Asegúrate de que index.html quede en la raíz.
+3. En GitHub Pages espera el despliegue.
+4. Haz Ctrl+F5 o abre en incógnito para evitar caché.

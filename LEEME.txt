@@ -1,0 +1,13 @@
+Dashboard Inversor ligero v3
+
+Qué cambió:
+- Se separó el contenido en 4 vistas: Panorama, Metodología, Comparativo y Roadmap.
+- El mapa y el Top 5 son protagonistas en la vista inicial.
+- La tabla completa queda en una vista aparte para evitar saturación visual.
+- La metodología, pesos y perfiles de financiador quedan en una vista separada.
+- El roadmap, riesgos e información faltante quedan en una vista final.
+- Mantiene Poppins, navy, cyan y estética más limpia, alineada con la PPT.
+
+Uso:
+- Abrir dashboard_inversor_ligero_v3.html en navegador.
+- En iOS, usar dashboard_inversor_ligero_v3_ios.html o extraer el ZIP en Archivos.

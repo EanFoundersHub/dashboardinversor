@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inversor · Dashboard de priorización</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#071E4A;
+  --navy-2:#0B2E65;
+  --cyan:#00AEEA;
+  --cyan-2:#38D6EF;
+  --mint:#E8F8F6;
+  --soft:#F6FAFC;
+  --paper:#FFFFFF;
+  --line:#DDEAF1;
+  --text:#10213A;
+  --muted:#65768A;
+  --green:#0FAE7A;
+  --orange:#F4A340;
+  --red:#E94E5D;
+  --shadow:0 16px 48px rgba(7,30,74,.07);
+  --radius:28px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:linear-gradient(180deg,#fff 0%,#F6FAFC 46%,#EEF6F9 100%);font-family:'Poppins',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--text)}
+button,input,select{font-family:inherit}
+.wrapper{max-width:1440px;margin:0 auto;padding:26px 28px 36px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:20px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;color:var(--navy);letter-spacing:.03em}
+.mark{width:40px;height:40px;border-radius:999px;position:relative;background:conic-gradient(from 0deg,var(--cyan),var(--navy),var(--cyan));box-shadow:0 8px 28px rgba(0,174,234,.22)}
+.mark:after{content:"";position:absolute;inset:10px;border-radius:999px;background:white}
+.brand small{display:block;font-size:11px;color:var(--muted);font-weight:600;letter-spacing:0;text-transform:none}
+.nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.nav button{border:1px solid var(--line);background:#fff;color:var(--navy);font-weight:700;border-radius:999px;padding:10px 14px;cursor:pointer;transition:.2s ease}
+.nav button.active,.nav button:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#fff 0%,#fff 68%,#EAFBFF 100%);border:1px solid var(--line);border-radius:34px;padding:34px 36px;margin-bottom:22px;box-shadow:var(--shadow)}
+.hero:after{content:"";position:absolute;right:-110px;top:-110px;width:320px;height:320px;border-radius:999px;border:42px solid rgba(0,174,234,.11)}
+.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.13em;color:var(--cyan);font-weight:800;margin-bottom:10px}
+h1{margin:0;font-size:clamp(36px,5.2vw,72px);line-height:.94;letter-spacing:-.06em;color:var(--navy);max-width:1050px;font-weight:900}
+.hero p{font-size:17px;color:#425671;max-width:820px;line-height:1.65;margin:18px 0 0}
+.hero .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.btn{border:1px solid var(--line);background:#fff;border-radius:999px;color:var(--navy);padding:11px 16px;font-weight:800;cursor:pointer;transition:.18s ease}
+.btn:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(7,30,74,.08)}
+.btn.primary{background:var(--navy);border-color:var(--navy);color:#fff}
+.btn.cyan{background:var(--cyan);border-color:var(--cyan);color:#fff}
+.view{display:none}
+.view.active{display:block}
+.controls{display:grid;grid-template-columns:1.3fr .7fr;gap:18px;margin-bottom:18px}
+.panel{background:rgba(255,255,255,.86);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
+.panel.slim{padding:18px}
+.panel h2{margin:0 0 10px;color:var(--navy);font-size:24px;letter-spacing:-.03em}
+.panel h3{margin:0 0 8px;color:var(--navy);font-size:18px}
+.panel p{color:var(--muted);line-height:1.55;margin:7px 0 0}
+.selectrow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+select,input[type='search']{width:100%;border:1px solid var(--line);border-radius:18px;background:#fff;padding:13px 14px;color:var(--navy);font-weight:700}
+.profilebox{background:var(--soft);border:1px solid var(--line);border-radius:20px;padding:15px;min-height:108px}
+.profilebox strong{color:var(--navy)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:var(--shadow)}
+.kpi .n{font-size:36px;color:var(--navy);font-weight:900;letter-spacing:-.05em}
+.kpi .t{font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.homegrid{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;align-items:stretch}
+.mapwrap{min-height:650px;position:relative;background:linear-gradient(180deg,#F5FBFD,#FFFFFF);border-radius:26px;overflow:hidden;border:1px solid var(--line)}
+svg{width:100%;height:100%;min-height:650px;display:block}
+.land{fill:#DFF6F2;stroke:#87D9D0;stroke-width:2}
+.guide{stroke:#D1E6EE;stroke-width:1;opacity:.75}
+.point{cursor:pointer;stroke:#fff;stroke-width:2;opacity:.65;transition:.16s ease}
+.point.top{opacity:1;stroke:var(--navy);stroke-width:2.8}
+.point.selected{stroke:#FFD565;stroke-width:5;opacity:1}
+.rankLabel{font-size:10px;font-weight:900;fill:#fff;pointer-events:none;text-anchor:middle}
+.legend{position:absolute;left:18px;bottom:18px;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:18px;padding:12px 14px;font-size:12px;box-shadow:0 10px 28px rgba(7,30,74,.08)}
+.legend div{display:flex;align-items:center;gap:8px;margin:5px 0;color:var(--muted);font-weight:700}
+.dot{width:12px;height:12px;border-radius:999px;display:inline-block;background:var(--cyan)}
+.dot.soft{background:#C5D9E7}
+.toplist{display:grid;gap:10px;margin-top:12px}
+.u-card{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:22px;padding:14px;cursor:pointer;transition:.16s ease}
+.u-card:hover{border-color:#9DDDEA;transform:translateY(-1px)}
+.badge{width:40px;height:40px;border-radius:16px;background:linear-gradient(135deg,var(--cyan),var(--navy-2));color:#fff;display:grid;place-items:center;font-weight:900}
+.u-card h3{font-size:16px;margin:0;color:var(--navy);letter-spacing:-.01em}
+.meta{font-size:12px;color:var(--muted);margin-top:3px}
+.score{font-size:24px;font-weight:900;color:var(--navy);letter-spacing:-.04em}
+.explain{background:linear-gradient(135deg,#fff,#F6FCFE);border:1px solid var(--line);border-radius:24px;margin-top:14px;padding:18px}
+.explain h3{font-size:20px;margin:0;color:var(--navy)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.chip{border-radius:999px;padding:6px 9px;background:var(--soft);border:1px solid var(--line);font-size:11px;color:var(--navy);font-weight:700}
+.chip.cyan{background:#E7F9FE;color:#006E91;border-color:#BFEFFC}
+.chip.warn{background:#FFF7E9;color:#8B5D00;border-color:#F9DEB3}
+.barrows{display:grid;gap:10px;margin-top:12px}
+.barrow{display:grid;grid-template-columns:150px 1fr 42px;gap:10px;align-items:center;font-size:12px;color:var(--muted);font-weight:700}
+.track{height:10px;background:#E9F2F6;border-radius:999px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,var(--cyan),#71E5F3);border-radius:999px}
+.method-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:18px}
+.method-card{background:#fff;border:1px solid var(--line);border-radius:28px;padding:22px;min-height:260px;box-shadow:var(--shadow)}
+.method-card .num{width:42px;height:42px;border-radius:16px;display:grid;place-items:center;background:var(--cyan);color:#fff;font-weight:900;margin-bottom:16px}
+.method-card h3{font-size:19px;margin:0 0 10px;color:var(--navy)}
+.method-card ul{padding-left:18px;margin:10px 0 0;color:#415671;line-height:1.7}
+.weights{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+.weightrow{display:grid;grid-template-columns:190px 1fr 54px;gap:12px;align-items:center;margin:12px 0;font-size:13px;font-weight:700;color:var(--navy)}
+input[type=range]{accent-color:var(--cyan)}
+.profile-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+.profile-card{border:1px solid var(--line);border-radius:22px;padding:15px;background:#fff}
+.profile-card strong{color:var(--navy);display:block;margin-bottom:5px}
+.profile-card span{font-size:12px;color:var(--muted);line-height:1.45}
+.compare-head{display:grid;grid-template-columns:1fr 240px;gap:12px;margin-bottom:14px}
+.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:24px;background:#fff;box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;min-width:980px}
+th,td{padding:13px 12px;border-bottom:1px solid #EDF4F7;text-align:left;font-size:13px;vertical-align:top}
+th{position:sticky;top:0;background:#F9FCFD;color:var(--navy);font-weight:800;z-index:1}
+tbody tr:hover{background:#FAFDFF}
+.scorepill{background:var(--navy);color:#fff;border-radius:999px;padding:6px 10px;font-weight:900;display:inline-block;min-width:56px;text-align:center}
+.conf{border-radius:999px;padding:6px 9px;font-weight:800;display:inline-block;font-size:11px;background:#EFF4F6;color:#465568}
+.conf.Alto{background:#E9F9F2;color:#0D754E}
+.conf.Medio,.conf.Medio-Alto{background:#E7F8FE;color:#00759A}
+.conf.Bajo,.conf.Bajo-Medio{background:#FFF4E4;color:#9A5F00}
+.roadgrid{display:grid;grid-template-columns:1.35fr .65fr;gap:18px;align-items:start}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:14px}
+.phase{background:#fff;border:1px solid var(--line);border-radius:26px;padding:18px;box-shadow:var(--shadow)}
+.phase h3{font-size:15px;color:var(--cyan);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+.step{display:flex;gap:10px;align-items:flex-start;border-top:1px solid #EDF4F7;padding:11px 0}
+.step:first-of-type{border-top:0}
+.step .snum{width:28px;height:28px;border-radius:10px;background:var(--soft);border:1px solid var(--line);color:var(--navy);display:grid;place-items:center;font-weight:900;font-size:12px;flex:0 0 auto}
+.step strong{color:var(--navy);font-size:13px}
+.step small{display:block;color:var(--muted);font-size:11px;margin-top:2px;line-height:1.35}
+.risks{display:grid;gap:10px;margin-top:14px}
+.risk{background:#fff;border:1px solid var(--line);border-left:4px solid var(--cyan);border-radius:20px;padding:14px}
+.risk strong{color:var(--navy)}
+.risk p{font-size:12px;margin:5px 0 0}
+.missing{display:grid;gap:10px;margin-top:14px}
+.miss{border:1px solid var(--line);border-radius:18px;background:#fff;padding:13px}
+.miss strong{display:block;color:var(--navy);font-size:13px}
+.miss span{font-size:12px;color:var(--muted)}
+.footer{margin-top:22px;background:var(--navy);color:#EAF8FC;border-radius:28px;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.footer strong{color:var(--cyan)}
+.footer small{color:#AFC2D5}
+.note{background:#F4FCFE;border:1px solid #CBEFF7;border-radius:22px;padding:16px;color:#334962;font-size:14px;line-height:1.55}
+@media(max-width:1100px){
+  .controls,.homegrid,.weights,.roadgrid,.compare-head{grid-template-columns:1fr}
+  .method-grid,.profile-grid,.timeline,.kpis{grid-template-columns:1fr 1fr}
+}
+@media(max-width:720px){
+  .wrapper{padding:16px}
+  .topbar,.footer{align-items:flex-start;flex-direction:column}
+  .method-grid,.profile-grid,.timeline,.kpis,.selectrow{grid-template-columns:1fr}
+  h1{font-size:38px}
+  .hero{padding:24px}
+  .mapwrap,svg{min-height:520px}
+  .weightrow{grid-template-columns:1fr}
+}
+@media print{
+  .nav,.controls .panel:nth-child(2),.actions,.btn{display:none!important}
+  .view{display:block!important;page-break-after:always}
+  body{background:#fff}
+  .panel,.hero,.kpi{box-shadow:none}
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="topbar">
+    <div class="brand"><span class="mark"></span><div>inversor<small>Nuestro compromiso de impacto</small></div></div>
+    <nav class="nav" id="nav">
+      <button data-view="home" class="active">Panorama</button>
+      <button data-view="method">Metodología</button>
+      <button data-view="compare">Comparativo</button>
+      <button data-view="roadmap">Roadmap</button>
+    </nav>
+  </div>
+
+  <section class="hero">
+    <div class="eyebrow">Dashboard de priorización · vehículo solar universitario</div>
+    <h1>Más claridad. Menos ruido.</h1>
+    <p>Explora el universo de 34 universidades públicas, ajusta la priorización según el perfil del financiador y entiende por qué cada universidad sube o baja en el ranking. Como debería funcionar todo ranking serio, pero bueno, aquí estamos haciéndolo a mano con dignidad.</p>
+    <div class="actions">
+      <button class="btn primary" onclick="setView('home')">Ver mapa + Top 5</button>
+      <button class="btn" onclick="setView('compare')">Abrir matriz global</button>
+      <button class="btn cyan" onclick="exportCSV()">Exportar CSV</button>
+    </div>
+  </section>
+
+  <section class="controls">
+    <div class="panel slim">
+      <div class="selectrow">
+        <div>
+          <label class="eyebrow">Perfil del financiador</label>
+          <select id="profileSelect"></select>
+        </div>
+        <div>
+          <label class="eyebrow">Buscar universidad / región</label>
+          <input id="searchBox" type="search" placeholder="Ej. Guajira, Caribe, petrolero...">
+        </div>
+      </div>
+    </div>
+    <div class="profilebox" id="profileDesc"></div>
+  </section>
+
+  <section class="view active" id="view-home">
+    <div class="kpis">
+      <div class="kpi"><div class="n">34</div><div class="t">Universidades analizadas</div></div>
+      <div class="kpi"><div class="n" id="kpiTop">5</div><div class="t">Lista corta dinámica</div></div>
+      <div class="kpi"><div class="n" id="kpiScore">--</div><div class="t">Score líder</div></div>
+      <div class="kpi"><div class="n" id="kpiProfile">Base</div><div class="t">Capa activa</div></div>
+    </div>
+
+    <div class="homegrid">
+      <div class="panel">
+        <h2>Mapa de priorización</h2>
+        <p>Los puntos muestran las universidades del universo SUE. Las cinco priorizadas se resaltan según el perfil de financiador activo.</p>
+        <div class="mapwrap">
+          <svg id="map" viewBox="0 0 460 620" aria-label="Mapa simplificado de Colombia"></svg>
+          <div class="legend">
+            <div><span class="dot"></span>Top 5 del perfil activo</div>
+            <div><span class="dot soft"></span>Universidades analizadas</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Top 5 actual</h2>
+        <p>Lista corta preliminar. No es sentencia divina, gracias a Dios y al debido proceso.</p>
+        <div class="toplist" id="topList"></div>
+        <div class="explain" id="selectedDetail"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-method">
+    <div class="panel">
+      <h2>Metodología: cuatro decisiones, no cuarenta cajas peleándose</h2>
+      <p>La metodología separa condiciones mínimas, priorización ponderada, calidad del dato y sensibilidad por financiador.</p>
+      <div class="method-grid">
+        <div class="method-card"><div class="num">1</div><h3>Elegibilidad mínima</h3><ul><li>Universidad pública / SUE</li><li>Conexión al SIN</li><li>Radiación solar viable</li><li>Operador de red identificable</li><li>Consumo y potencial físico preliminar</li></ul></div>
+        <div class="method-card"><div class="num">2</div><h3>Priorización ponderada</h3><ul><li>Potencial técnico-financiero</li><li>Impacto educativo</li><li>Viabilidad institucional y jurídica</li><li>Alineación territorial / financiador</li><li>Escalabilidad</li></ul></div>
+        <div class="method-card"><div class="num">3</div><h3>Confianza del dato</h3><ul><li>Alto: fuente oficial o institucional</li><li>Medio: estimación sustentada</li><li>Bajo: inferencia preliminar</li><li>Crítico pendiente: puede cambiar la decisión</li></ul></div>
+        <div class="method-card"><div class="num">4</div><h3>Sensibilidad por financiador</h3><ul><li>Empresa energética</li><li>Cooperación internacional</li><li>Fondo público</li><li>Fundación educativa</li><li>Blended finance / capital catalítico</li></ul></div>
+      </div>
+    </div>
+
+    <div class="weights">
+      <div class="panel">
+        <h2>Pesos editables</h2>
+        <p>Los pesos se normalizan a 100%. Si ajustas uno, el dashboard pasa a perfil personalizado.</p>
+        <div id="weightsBox"></div>
+        <p class="note" id="weightSummary"></p>
+      </div>
+      <div class="panel">
+        <h2>Perfiles de financiador</h2>
+        <p>Cada perfil representa una tesis distinta de capital e impacto. Sí, el dinero también tiene personalidad, qué incómodo.</p>
+        <div class="profile-grid" id="profileGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-compare">
+    <div class="compare-head">
+      <div class="panel slim"><h2>Matriz global</h2><p>Vista compacta de las 34 universidades. La tabla prioriza columnas útiles para discusión ejecutiva.</p></div>
+      <div class="panel slim"><button class="btn primary" onclick="exportCSV()">Exportar ranking CSV</button><p class="meta">Incluye scores y dimensiones.</p></div>
+    </div>
+    <div class="tablewrap">
+      <table id="rankTable">
+        <thead>
+          <tr><th>#</th><th>Universidad</th><th>Región / territorio</th><th>Operador / tarifa</th><th>Score</th><th>Téc.</th><th>Educ.</th><th>Inst.</th><th>Alineación</th><th>Confianza</th><th>Validación crítica</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="view" id="view-roadmap">
+    <div class="roadgrid">
+      <div class="panel">
+        <h2>Roadmap del vehículo</h2>
+        <p>De la priorización preliminar a la estructuración e implementación. Aquí el dashboard deja de ser ranking y empieza a parecer trabajo real, molesto pero útil.</p>
+        <div class="timeline" id="timeline"></div>
+      </div>
+      <div>
+        <div class="panel">
+          <h2>Información faltante</h2>
+          <p>Qué debe pedirse y a quién. La parte donde el PowerPoint conoce al correo institucional.</p>
+          <div class="missing" id="missingInfo"></div>
+        </div>
+        <div class="panel" style="margin-top:18px">
+          <h2>Riesgos principales</h2>
+          <div class="risks">
+            <div class="risk"><strong>Datos críticos no disponibles</strong><p>Sin facturas, consumo y cubiertas, el ranking pierde confiabilidad.</p></div>
+            <div class="risk"><strong>Cubiertas o redes no aptas</strong><p>La infraestructura puede elevar costos o impedir implementación.</p></div>
+            <div class="risk"><strong>Capacidad contractual limitada</strong><p>Riesgos en convenios, propiedad de activos y contratación pública.</p></div>
+            <div class="risk"><strong>Ahorro inferior al esperado</strong><p>Supuestos optimistas de generación o consumo pueden no materializarse.</p></div>
+            <div class="risk"><strong>Gobernanza débil del fondo educativo</strong><p>Falta de reglas claras para asignación y trazabilidad de apoyos.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div><strong>Impacto</strong> que transforma. <strong>Energía</strong> que educa. <strong>Futuro</strong> que se construye.</div>
+    <small>Dashboard preliminar · datos secundarios + supuestos editables</small>
+  </footer>
+</div>
+
+<script>
+const DATA = {"universities": [{"id": "unal", "name": "Universidad Nacional de Colombia", "city": "Bogotá / multisede", "department": "Bogotá D.C. / nacional", "region": "Central / Nacional", "operator": "Enel-Codensa / otros por sede", "tariff": "$838–844 Bogotá; validar por sede", "radiation": "4.0–4.5 Bogotá; variable por sede", "energy_zone": "Multisede; validar sede específica", "territory": "Nacional, alta capacidad institucional", "elegibility": "Validar por sede", "confidence": "Medio", "technical": 3.2, "education": 5.0, "institutional": 5.0, "alignment": 3.0, "scalability": 5.0, "tags": ["multisede", "alta capacidad institucional", "requiere selección de sede"], "critical": "Elegir sede objetivo; facturas, consumo y cubiertas varían por campus.", "source_note": "SUE; información tarifaria y radiación estimada por sede principal.", "lon": -74.0721, "lat": 4.711, "dx": 0, "dy": 0}, {"id": "udea", "name": "Universidad de Antioquia", "city": "Medellín", "department": "Antioquia", "region": "Eje Cafetero / Antioquia", "operator": "EPM", "tariff": "$802–920 aprox.", "radiation": "4.5–5.0", "energy_zone": "Distrito minero Antioquia / transición minera", "territory": "Alta capacidad institucional; experiencia en energía solar", "elegibility": "Cumple / validar", "confidence": "Medio", "technical": 3.6, "education": 4.8, "institutional": 4.8, "alignment": 3.7, "scalability": 4.0, "tags": ["capacidad institucional", "experiencia solar", "urbana"], "critical": "Consumo por campus, cubierta disponible y régimen de contratación.", "source_note": "Resumen Inversor; SUE; tarifa estimada por operador.", "lon": -75.5812, "lat": 6.2442, "dx": 0, "dy": 0}, {"id": "univalle", "name": "Universidad del Valle", "city": "Cali", "department": "Valle del Cauca", "region": "Suroccidente", "operator": "Emcali / Celsia según sede", "tariff": "$774–873 aprox.", "radiation": "4.5–5.0", "energy_zone": "Valle: distrito minero declarado; menor narrativa energética que Caribe/petróleo", "territory": "Alta escala y capacidad institucional", "elegibility": "Cumple / validar", "confidence": "Medio", "technical": 3.5, "education": 4.8, "institutional": 4.7, "alignment": 3.0, "scalability": 4.0, "tags": ["alta matrícula", "capacidad institucional", "suroccidente"], "critical": "Consumo, cubiertas y priorización de sede.", "source_note": "SUE; tarifa y radiación aproximadas por región.", "lon": -76.532, "lat": 3.4516, "dx": 0, "dy": 0}, {"id": "uis", "name": "Universidad Industrial de Santander", "city": "Bucaramanga", "department": "Santander", "region": "Nororiente", "operator": "ESSA", "tariff": "$780–830 aprox.", "radiation": "4.5–5.0", "energy_zone": "Magdalena Medio / territorio histórico Ecopetrol", "territory": "Fuerte para financiador energético; STEM alto", "elegibility": "Cumple / validar", "confidence": "Medio", "technical": 3.2, "education": 3.8, "institutional": 4.5, "alignment": 4.8, "scalability": 3.5, "tags": ["Ecopetrol", "STEM", "energético"], "critical": "Tarifa real, consumo por sede y articulación con Barrancabermeja.", "source_note": "Resumen Inversor; SUE; tarifa estimada ESSA.", "lon": -73.1227, "lat": 7.1193, "dx": 0, "dy": 0}, {"id": "ucaldas", "name": "Universidad de Caldas", "city": "Manizales", "department": "Caldas", "region": "Eje Cafetero", "operator": "CHEC / Eje Cafetero", "tariff": "$870–910 aprox.", "radiation": "4.0–4.5", "energy_zone": "Distrito minero Caldas; radiación media", "territory": "Capacidad institucional media-alta", "elegibility": "Cumple / validar", "confidence": "Medio", "technical": 3.0, "education": 3.4, "institutional": 4.0, "alignment": 2.8, "scalability": 3.0, "tags": ["eje cafetero", "radiación media", "validar consumo"], "critical": "Potencial de ahorro y cubiertas.", "source_note": "SUE; resumen Inversor.", "lon": -75.5138, "lat": 5.0703, "dx": 0, "dy": 0}, {"id": "unicauca", "name": "Universidad del Cauca", "city": "Popayán", "department": "Cauca", "region": "Suroccidente", "operator": "Compañía Energética de Occidente / validar", "tariff": "Validar", "radiation": "<4.0–4.5 según sede; riesgo", "energy_zone": "Cauca: distrito minero; menor potencial solar relativo", "territory": "Alta relevancia social; validación técnica fuerte", "elegibility": "Validar", "confidence": "Bajo", "technical": 2.5, "education": 4.0, "institutional": 4.0, "alignment": 3.4, "scalability": 3.0, "tags": ["impacto social", "validación técnica", "riesgo radiación"], "critical": "Radiación, consumo y conexión por sede.", "source_note": "SUE; clasificación preliminar con baja confianza.", "lon": -76.6147, "lat": 2.4448, "dx": 0, "dy": 0}, {"id": "unicartagena", "name": "Universidad de Cartagena", "city": "Cartagena", "department": "Bolívar", "region": "Caribe", "operator": "Afinia", "tariff": "$1.006–1.096 aprox.", "radiation": "5.5+", "energy_zone": "Caribe; alta radiación y tarifa", "territory": "Fuerte potencial técnico-financiero; ciudad costera exige validar corrosión/salinidad", "elegibility": "Cumple / validar", "confidence": "Medio", "technical": 4.7, "education": 3.8, "institutional": 4.0, "alignment": 3.5, "scalability": 3.5, "tags": ["Caribe", "tarifa alta", "radiación alta"], "critical": "Cubiertas, corrosión salina, consumo real y fondo de becas.", "source_note": "Resumen Inversor; SUE; tarifa Afinia.", "lon": -75.4794, "lat": 10.391, "dx": 0, "dy": 0}, {"id": "uniatlantico", "name": "Universidad del Atlántico", "city": "Barranquilla", "department": "Atlántico", "region": "Caribe", "operator": "Air-e", "tariff": "$907–943 aprox.", "radiation": "5.5+", "energy_zone": "Caribe; programas públicos de eficiencia energética", "territory": "Alta escala, buena capacidad institucional y potencial Caribe/cooperación", "elegibility": "Cumple / validar", "confidence": "Medio-Alto", "technical": 4.5, "education": 4.5, "institutional": 4.2, "alignment": 3.9, "scalability": 4.0, "tags": ["Caribe", "escala institucional", "cooperación"], "critical": "Facturas, cubiertas, ruta contractual y uso de ahorros.", "source_note": "SUE; resumen Inversor; experiencia de TDR solar universitario como referencia técnica.", "lon": -74.7813, "lat": 10.9685, "dx": 0, "dy": 0}, {"id": "utp", "name": "Universidad Tecnológica de Pereira", "city": "Pereira", "department": "Risaralda", "region": "Eje Cafetero", "operator": "EEP / validar", "tariff": "$774–873 aprox.", "radiation": "4.0–4.5", "energy_zone": "Eje Cafetero; radiación media", "territory": "Capacidad institucional, menor atractivo tarifario", "elegibility": "Cumple / validar", "confidence": "Medio", "technical": 2.9, "education": 3.6, "institutional": 4.1, "alignment": 2.6, "scalability": 3.0, "tags": ["capacidad institucional", "tarifa menor", "validar"], "critical": "Ahorro esperado, consumo y cubiertas.", "source_note": "SUE; resumen Inversor.", "lon": -75.6906, "lat": 4.8087, "dx": 0, "dy": 0}, {"id": "unicordoba", "name": "Universidad de Córdoba", "city": "Montería", "department": "Córdoba", "region": "Caribe", "operator": "Afinia", "tariff": "$1.006–1.096 aprox.", "radiation": "5.5+", "energy_zone": "Caribe; alto potencial técnico-financiero", "territory": "Interesante para cooperación y programas públicos Caribe", "elegibility": "Cumple / validar", "confidence": "Medio", "technical": 4.7, "education": 3.9, "institutional": 3.5, "alignment": 3.6, "scalability": 3.2, "tags": ["Caribe", "tarifa alta", "radiación alta"], "critical": "Capacidad institucional, cubiertas y operador de red.", "source_note": "Resumen Inversor; SUE; tarifa Afinia.", "lon": -75.8814, "lat": 8.7479, "dx": 0, "dy": 0}, {"id": "uniquindio", "name": "Universidad del Quindío", "city": "Armenia", "department": "Quindío", "region": "Eje Cafetero", "operator": "EDEQ / validar", "tariff": "$870–910 aprox.", "radiation": "4.5–5.0", "energy_zone": "Eje cafetero; narrativa energética media", "territory": "Potencial medio; validar impacto educativo", "elegibility": "Cumple / validar", "confidence": "Medio", "technical": 3.4, "education": 3.3, "institutional": 3.8, "alignment": 2.5, "scalability": 2.8, "tags": ["eje cafetero", "potencial medio"], "critical": "Consumo, tarifa no regulada y cubiertas.", "source_note": "SUE; resumen Inversor.", "lon": -75.6811, "lat": 4.535, "dx": 0, "dy": 0}, {"id": "uptc", "name": "Universidad Pedagógica y Tecnológica de Colombia - UPTC", "city": "Tunja / Duitama / Sogamoso", "department": "Boyacá", "region": "Centro Oriente", "operator": "ESSA / EBSA; validar", "tariff": "$780 aprox. en enunciado", "radiation": "4.5–5.0", "energy_zone": "Corredor Sogamoso-Duitama-Paz de Río; transición carbonífera", "territory": "Benchmark real del modelo Ecopetrol-ISA; no se prioriza como nueva candidata", "elegibility": "Benchmark", "confidence": "Alto para piloto; medio para datos operativos", "technical": 3.6, "education": 4.2, "institutional": 4.0, "alignment": 5.0, "scalability": 4.0, "tags": ["benchmark", "Ecopetrol-ISA", "transición justa"], "critical": "Usar como referencia, no como top de expansión.", "source_note": "Prueba oficial + comunicado Ecopetrol/ISA.", "lon": -73.3678, "lat": 5.5353, "dx": 0, "dy": 0}, {"id": "usco", "name": "Universidad Surcolombiana", "city": "Neiva", "department": "Huila", "region": "Surcolombiana", "operator": "Electrohuila", "tariff": "$969–1.039 aprox.", "radiation": "5.0+", "energy_zone": "Huila petrolero; transición post-hidrocarburos", "territory": "Fuerte para financiador energético y balance técnico-social", "elegibility": "Cumple / validar", "confidence": "Medio", "technical": 4.6, "education": 3.8, "institutional": 3.6, "alignment": 4.7, "scalability": 3.0, "tags": ["petróleo", "radiación alta", "Ecopetrol"], "critical": "Consumo real, cubiertas y financiador natural.", "source_note": "Resumen Inversor; SUE; tarifa Electrohuila.", "lon": -75.2819, "lat": 2.9345, "dx": 0, "dy": 0}, {"id": "udenar", "name": "Universidad de Nariño", "city": "Pasto", "department": "Nariño", "region": "Suroccidente", "operator": "Cedenar", "tariff": "$1.008 aprox.", "radiation": "<4.0", "energy_zone": "Tarifa alta, radiación baja", "territory": "Caso de contraste: atractiva por tarifa, débil por radiación", "elegibility": "Riesgo técnico", "confidence": "Medio", "technical": 2.4, "education": 3.8, "institutional": 3.7, "alignment": 2.5, "scalability": 2.8, "tags": ["tarifa alta", "radiación baja", "contraste"], "critical": "Radiación, generación esperada y viabilidad técnica.", "source_note": "Resumen Inversor.", "lon": -77.2811, "lat": 1.2136, "dx": 0, "dy": 0}, {"id": "unimagdalena", "name": "Universidad del Magdalena", "city": "Santa Marta", "department": "Magdalena", "region": "Caribe", "operator": "Air-e", "tariff": "$907–943 aprox.", "radiation": "5.5+", "energy_zone": "Caribe; alta radiación", "territory": "Buena para cooperación/Caribe; validación institucional", "elegibility": "Cumple / validar", "confidence": "Medio", "technical": 4.3, "education": 3.8, "institutional": 3.8, "alignment": 3.8, "scalability": 3.5, "tags": ["Caribe", "radiación alta", "cooperación"], "critical": "Consumo, cubiertas, capacidad jurídica y fondo educativo.", "source_note": "Resumen Inversor; SUE; tarifa Air-e.", "lon": -74.211, "lat": 11.2408, "dx": 0, "dy": 0}, {"id": "unillanos", "name": "Universidad de los Llanos", "city": "Villavicencio", "department": "Meta", "region": "Orinoquía", "operator": "EMSA", "tariff": "$851 aprox.", "radiation": "5.0+", "energy_zone": "Meta petrolero; transición post-hidrocarburos", "territory": "Fuerte para financiador energético territorial; tarifa media", "elegibility": "Cumple / validar", "confidence": "Medio", "technical": 4.0, "education": 3.6, "institutional": 3.6, "alignment": 4.3, "scalability": 3.0, "tags": ["petróleo", "Orinoquía", "Ecopetrol"], "critical": "Consumo, tarifa real y sedes.", "source_note": "Resumen Inversor; SUE.", "lon": -73.6266, "lat": 4.142, "dx": 0, "dy": 0}, {"id": "ufps", "name": "Universidad Francisco de Paula Santander", "city": "Cúcuta", "department": "Norte de Santander", "region": "Nororiente", "operator": "CENS", "tariff": "$1.056 aprox.", "radiation": "5.0+", "energy_zone": "Catatumbo / transición territorial", "territory": "Fuerte técnico-financiero y transición territorial; validar institucional", "elegibility": "Cumple / validar", "confidence": "Medio", "technical": 4.5, "education": 3.6, "institutional": 3.5, "alignment": 4.4, "scalability": 3.0, "tags": ["Catatumbo", "tarifa alta", "radiación alta"], "critical": "Riesgo territorial, consumo y cubiertas.", "source_note": "Resumen Inversor; SUE; tarifa CENS.", "lon": -72.5078, "lat": 7.8939, "dx": 0, "dy": 0}, {"id": "udistrital", "name": "Universidad Distrital Francisco José de Caldas", "city": "Bogotá", "department": "Bogotá D.C.", "region": "Central", "operator": "Enel-Codensa", "tariff": "$838–844 aprox.", "radiation": "4.0–4.5", "energy_zone": "Bogotá; menor tarifa relativa", "territory": "Alta escala; experiencia PERS en escuelas rurales; menor atractivo financiero", "elegibility": "Cumple / validar", "confidence": "Medio-Alto", "technical": 3.0, "education": 4.5, "institutional": 4.0, "alignment": 2.8, "scalability": 4.0, "tags": ["Bogotá", "alta matrícula", "capacidad institucional"], "critical": "Tarifa real, techos, modelo de becas y retorno.", "source_note": "Resumen Inversor; informe SGA citado en resumen.", "lon": -74.0817, "lat": 4.6097, "dx": 7, "dy": -8}, {"id": "umng", "name": "Universidad Militar Nueva Granada", "city": "Bogotá / Cajicá", "department": "Bogotá / Cundinamarca", "region": "Central", "operator": "Enel-Codensa / validar", "tariff": "$838–844 aprox.", "radiation": "4.0–4.5", "energy_zone": "Central; menor tarifa relativa", "territory": "Capacidad institucional, pero menor foco de transición justa", "elegibility": "Cumple / validar", "confidence": "Medio", "technical": 3.0, "education": 3.2, "institutional": 4.2, "alignment": 2.4, "scalability": 3.2, "tags": ["institucional", "central", "validar impacto"], "critical": "Foco de impacto educativo y mecanismo de becas.", "source_note": "SUE; tarifa/radiación estimada.", "lon": -74.0346, "lat": 4.7256, "dx": 10, "dy": 8}, {"id": "unad", "name": "Universidad Nacional Abierta y a Distancia - UNAD", "city": "Bogotá / nacional", "department": "Nacional", "region": "Nacional", "operator": "Variable por sede", "tariff": "Variable", "radiation": "Variable", "energy_zone": "Multisede nacional; modelo físico no comparable a campus tradicional", "territory": "Alta cobertura, pero requiere seleccionar sedes físicas con consumo relevante", "elegibility": "Validar por sede", "confidence": "Bajo", "technical": 2.8, "education": 4.2, "institutional": 4.2, "alignment": 3.0, "scalability": 4.5, "tags": ["nacional", "multisede", "requiere sede física"], "critical": "Identificar sedes con consumo, cubiertas y control operativo.", "source_note": "SUE; requiere levantamiento específico.", "lon": -74.0636, "lat": 4.6483, "dx": -12, "dy": 8}, {"id": "upn", "name": "Universidad Pedagógica Nacional", "city": "Bogotá", "department": "Bogotá D.C.", "region": "Central", "operator": "Enel-Codensa", "tariff": "$838–844 aprox.", "radiation": "4.0–4.5", "energy_zone": "Bogotá; menor tarifa relativa", "territory": "Impacto educativo claro, menor potencial financiero relativo", "elegibility": "Cumple / validar", "confidence": "Medio", "technical": 2.8, "education": 3.7, "institutional": 3.9, "alignment": 2.6, "scalability": 2.5, "tags": ["educación", "Bogotá", "validar consumo"], "critical": "Consumo y retorno financiero.", "source_note": "SUE; tarifa Enel estimada.", "lon": -74.0658, "lat": 4.651, "dx": -9, "dy": -12}, {"id": "unicolmayor", "name": "Universidad Colegio Mayor de Cundinamarca", "city": "Bogotá", "department": "Bogotá D.C.", "region": "Central", "operator": "Enel-Codensa", "tariff": "$838–844 aprox.", "radiation": "4.0–4.5", "energy_zone": "Bogotá; campus urbano", "territory": "Escala menor; validar consumo y techos", "elegibility": "Cumple / validar", "confidence": "Medio", "technical": 2.6, "education": 2.8, "institutional": 3.5, "alignment": 2.2, "scalability": 2.2, "tags": ["Bogotá", "escala menor", "validar"], "critical": "Consumo energético relevante y área disponible.", "source_note": "SUE; tarifa estimada.", "lon": -74.075, "lat": 4.609, "dx": 12, "dy": -4}, {"id": "uniamazonia", "name": "Universidad de la Amazonia", "city": "Florencia", "department": "Caquetá", "region": "Amazonía", "operator": "Electrocaquetá / validar", "tariff": "Validar", "radiation": "<4.0–4.5; validar", "energy_zone": "Amazonía; no confundir con UNAL Leticia/ZNI", "territory": "Alta relevancia territorial; factibilidad técnica a validar", "elegibility": "Validar", "confidence": "Bajo", "technical": 2.7, "education": 3.2, "institutional": 3.3, "alignment": 3.2, "scalability": 2.5, "tags": ["Amazonía", "validación crítica", "impacto territorial"], "critical": "Conexión SIN por sede, radiación, consumo y ruta jurídica.", "source_note": "SUE; baja confianza, requiere levantamiento.", "lon": -75.6062, "lat": 1.6144, "dx": 0, "dy": 0}, {"id": "uniguajira", "name": "Universidad de La Guajira", "city": "Riohacha", "department": "La Guajira", "region": "Caribe", "operator": "Air-e", "tariff": "$907–943 aprox.", "radiation": "6.0+", "energy_zone": "La Guajira / transición energética, carbón y renovables", "territory": "Muy fuerte en transición energética justa, radiación e impacto social", "elegibility": "Cumple / validar", "confidence": "Medio", "technical": 4.7, "education": 3.8, "institutional": 3.0, "alignment": 5.0, "scalability": 3.5, "tags": ["transición justa", "Caribe", "radiación excepcional"], "critical": "Capacidad institucional, cubiertas, fondo educativo y gobernanza.", "source_note": "Resumen Inversor; SUE; tarifa Air-e.", "lon": -72.9072, "lat": 11.5444, "dx": 0, "dy": 0}, {"id": "unipamplona", "name": "Universidad de Pamplona", "city": "Pamplona", "department": "Norte de Santander", "region": "Nororiente", "operator": "CENS", "tariff": "$1.056 aprox.", "radiation": "5.0+", "energy_zone": "Norte de Santander / Catatumbo", "territory": "Fuerte tarifa-radiación y transición territorial; validar sede/infraestructura", "elegibility": "Cumple / validar", "confidence": "Medio", "technical": 4.4, "education": 3.5, "institutional": 3.4, "alignment": 4.2, "scalability": 3.0, "tags": ["tarifa alta", "Catatumbo", "radiación alta"], "critical": "Consumo, cubiertas y capacidad de gestión.", "source_note": "Resumen Inversor; SUE; tarifa CENS.", "lon": -72.6479, "lat": 7.3757, "dx": 0, "dy": 0}, {"id": "unisucre", "name": "Universidad de Sucre", "city": "Sincelejo", "department": "Sucre", "region": "Caribe", "operator": "Afinia", "tariff": "$1.006–1.096 aprox.", "radiation": "5.5+", "energy_zone": "Caribe; alto potencial solar y tarifario", "territory": "Interesante para cooperación Caribe; menor escala institucional relativa", "elegibility": "Cumple / validar", "confidence": "Medio", "technical": 4.7, "education": 3.4, "institutional": 3.2, "alignment": 3.5, "scalability": 2.8, "tags": ["Caribe", "tarifa alta", "radiación alta"], "critical": "Escala de consumo, capacidad institucional y fondo de becas.", "source_note": "Resumen Inversor; SUE; tarifa Afinia.", "lon": -75.3978, "lat": 9.3047, "dx": 0, "dy": 0}, {"id": "unicesar", "name": "Universidad Popular del Cesar", "city": "Valledupar", "department": "Cesar", "region": "Caribe", "operator": "Afinia", "tariff": "$1.006–1.096 aprox.", "radiation": "5.5+", "energy_zone": "Cesar / transición post-carbón", "territory": "Muy fuerte por radiación, tarifa y reconversión carbonífera", "elegibility": "Cumple / validar", "confidence": "Medio", "technical": 4.8, "education": 4.0, "institutional": 3.2, "alignment": 5.0, "scalability": 3.2, "tags": ["post-carbón", "Caribe", "tarifa alta"], "critical": "Capacidad institucional, consumo y ruta jurídica.", "source_note": "Resumen Inversor; SUE; tarifa Afinia.", "lon": -73.2532, "lat": 10.4631, "dx": 0, "dy": 0}, {"id": "utch", "name": "Universidad Tecnológica del Chocó", "city": "Quibdó", "department": "Chocó", "region": "Pacífico", "operator": "Dispac / validar", "tariff": "Validar", "radiation": "Baja / alta nubosidad; validar", "energy_zone": "Chocó; alta vulnerabilidad, menor potencial solar relativo", "territory": "Alta relevancia social; fuerte validación técnica", "elegibility": "Validar", "confidence": "Bajo", "technical": 2.1, "education": 3.2, "institutional": 2.8, "alignment": 3.5, "scalability": 2.2, "tags": ["impacto social", "radiación baja", "validar"], "critical": "Radiación útil, conexión, consumo y riesgo operativo.", "source_note": "SUE; clasificación preliminar con baja confianza.", "lon": -76.6611, "lat": 5.6947, "dx": 0, "dy": 0}, {"id": "unipacifico", "name": "Universidad del Pacífico", "city": "Buenaventura", "department": "Valle del Cauca", "region": "Pacífico", "operator": "Celsia / validar", "tariff": "Validar", "radiation": "Baja-media; validar", "energy_zone": "Pacífico; alta vulnerabilidad social", "territory": "Impacto social alto; viabilidad técnica por validar", "elegibility": "Validar", "confidence": "Bajo", "technical": 2.2, "education": 2.8, "institutional": 2.8, "alignment": 3.0, "scalability": 2.0, "tags": ["Pacífico", "impacto social", "validación crítica"], "critical": "Radiación, cubiertas, consumo y capacidad institucional.", "source_note": "SUE; baja confianza.", "lon": -77.0312, "lat": 3.8801, "dx": 0, "dy": 0}, {"id": "uaiin", "name": "Universidad Autónoma Indígena Intercultural", "city": "Popayán / Cauca", "department": "Cauca", "region": "Suroccidente", "operator": "Validar", "tariff": "Validar", "radiation": "Validar", "energy_zone": "Intercultural; impacto diferencial", "territory": "Alta pertinencia social; no es candidata natural sin validación técnica y jurídica", "elegibility": "Validar", "confidence": "Bajo", "technical": 2.2, "education": 2.6, "institutional": 2.8, "alignment": 3.2, "scalability": 1.8, "tags": ["intercultural", "impacto diferencial", "validar"], "critical": "Naturaleza jurídica, sedes, consumo, conectividad y gobernanza.", "source_note": "SUE; baja confianza.", "lon": -76.6147, "lat": 2.4448, "dx": 10, "dy": -8}, {"id": "utolima", "name": "Universidad del Tolima", "city": "Ibagué", "department": "Tolima", "region": "Centro", "operator": "Celsia Tolima", "tariff": "$1.047 aprox.", "radiation": "4.5–5.0", "energy_zone": "Tarifa alta; potencial técnico medio-alto", "territory": "Buen potencial financiero; menor narrativa donante frente a Caribe/petróleo", "elegibility": "Cumple / validar", "confidence": "Medio", "technical": 4.3, "education": 3.6, "institutional": 3.7, "alignment": 3.0, "scalability": 3.0, "tags": ["tarifa alta", "centro", "potencial financiero"], "critical": "Consumo, cubiertas y vínculo con financiador.", "source_note": "Resumen Inversor; SUE; tarifa Celsia Tolima.", "lon": -75.2322, "lat": 4.4389, "dx": 0, "dy": 0}, {"id": "unitropico", "name": "Universidad Internacional del Trópico Americano - Unitrópico", "city": "Yopal", "department": "Casanare", "region": "Orinoquía", "operator": "Enerca / validar", "tariff": "Validar", "radiation": "5.0+", "energy_zone": "Casanare petrolero / transición post-hidrocarburos", "territory": "Muy interesante para financiador energético; escala e institucionalidad a validar", "elegibility": "Cumple / validar", "confidence": "Bajo-Medio", "technical": 4.1, "education": 3.0, "institutional": 3.0, "alignment": 4.6, "scalability": 2.7, "tags": ["petróleo", "Casanare", "Ecopetrol"], "critical": "Tarifa, consumo, capacidad institucional y cubiertas.", "source_note": "SUE; resumen Inversor; datos pendientes.", "lon": -72.3959, "lat": 5.3378, "dx": 0, "dy": 0}, {"id": "unipaz", "name": "Instituto Universitario de la Paz - UNIPAZ", "city": "Barrancabermeja", "department": "Santander", "region": "Magdalena Medio", "operator": "ESSA / validar", "tariff": "Validar / ESSA aprox.", "radiation": "4.5–5.0", "energy_zone": "Barrancabermeja / territorio histórico Ecopetrol", "territory": "Fuerte match con financiador energético; escala y elegibilidad de universidad/instituto a validar", "elegibility": "Validar alcance", "confidence": "Bajo-Medio", "technical": 3.8, "education": 3.0, "institutional": 3.0, "alignment": 4.9, "scalability": 2.5, "tags": ["Ecopetrol", "Barrancabermeja", "financiador energético"], "critical": "Naturaleza institucional, consumo, capacidad jurídica y escala.", "source_note": "SUE; datos pendientes.", "lon": -73.8493, "lat": 7.0617, "dx": 0, "dy": 0}, {"id": "ucundinamarca", "name": "Universidad de Cundinamarca", "city": "Fusagasugá / multicampus", "department": "Cundinamarca", "region": "Central", "operator": "Enel-Codensa / validar", "tariff": "$838–844 aprox. / variable", "radiation": "4.0–4.5", "energy_zone": "Central; potencial multicampus", "territory": "Escalabilidad regional, menor narrativa energética", "elegibility": "Cumple / validar", "confidence": "Medio", "technical": 3.0, "education": 3.5, "institutional": 3.7, "alignment": 2.8, "scalability": 3.8, "tags": ["multicampus", "central", "validar sedes"], "critical": "Elegir sedes, consumo y cubiertas.", "source_note": "SUE; tarifa/radiación estimada.", "lon": -74.3647, "lat": 4.3385, "dx": 0, "dy": 0}], "profiles": {"base": {"label": "Balance general del vehículo", "description": "Ponderación inicial equilibrada para una lista corta preliminar. No asume un financiador único.", "weights": {"technical": 30, "education": 25, "institutional": 20, "alignment": 20, "scalability": 5}, "focus": "Viabilidad técnica + impacto educativo + capacidad institucional + match estratégico."}, "energetica": {"label": "Empresa energética / infraestructura", "description": "Perfil tipo Ecopetrol, ISA, petrolera, minera o empresa de energía con interés territorial y reputacional.", "weights": {"technical": 25, "education": 15, "institutional": 20, "alignment": 30, "scalability": 10}, "focus": "Territorio operativo, transición energética justa, STEM, reputación y replicabilidad."}, "cooperacion": {"label": "Cooperación internacional climática", "description": "Perfil tipo BID/BID Lab, GIZ, KfW, AFD o cooperación climática.", "weights": {"technical": 25, "education": 30, "institutional": 10, "alignment": 20, "scalability": 15}, "focus": "Adicionalidad climática, población vulnerable, transición justa y escalabilidad."}, "publico": {"label": "Fondo público / política energética", "description": "Perfil tipo FENOGE, MinEnergía o programa público de eficiencia energética.", "weights": {"technical": 25, "education": 15, "institutional": 20, "alignment": 30, "scalability": 10}, "focus": "Alineación con política pública, edificios oficiales, ahorro verificable y contratación viable."}, "fundacion": {"label": "Fundación educativa/social", "description": "Perfil tipo Fundación Bolívar Davivienda, Fundación Corona, Bancolombia, Santo Domingo u otra fundación social.", "weights": {"technical": 15, "education": 40, "institutional": 25, "alignment": 15, "scalability": 5}, "focus": "Permanencia estudiantil, becas, vulnerabilidad, gobernanza del fondo de apoyos."}, "blended": {"label": "Blended finance / inversión de impacto", "description": "Mezcla de donación, deuda senior, capital catalítico y repago con ahorros energéticos.", "weights": {"technical": 35, "education": 10, "institutional": 25, "alignment": 10, "scalability": 20}, "focus": "Flujo de ahorro, riesgo jurídico, capacidad de repago y portafolio replicable."}, "angeles": {"label": "Capital privado catalítico / ángeles / family offices", "description": "No como ángeles de startup clásicos, sino como capital junior, paciente o de primera pérdida en un vehículo estructurado.", "weights": {"technical": 35, "education": 10, "institutional": 25, "alignment": 10, "scalability": 20}, "focus": "Retorno moderado, riesgo controlado, contrato claro, evidencia de impacto y posibilidad de escala."}, "esco": {"label": "ESCO / proveedor solar financiador", "description": "Proveedor o empresa de servicios energéticos que instala y recupera vía contrato de desempeño o ahorros.", "weights": {"technical": 45, "education": 5, "institutional": 25, "alignment": 10, "scalability": 15}, "focus": "Ahorro verificable, techos aptos, consumo alto, conexión y contrato de largo plazo."}, "personalizado": {"label": "Personalizado", "description": "Ajusta manualmente los pesos para simular un financiador específico o una hipótesis de comité.", "weights": {"technical": 30, "education": 25, "institutional": 20, "alignment": 20, "scalability": 5}, "focus": "Definido por el usuario."}}, "roadmap": [{"phase": "1. Priorización preliminar", "actor": "Inversor", "output": "Lista corta de universidades candidatas"}, {"phase": "2. Acercamiento institucional", "actor": "Rectoría / Vicerrectoría Administrativa", "output": "Interés formal y punto focal"}, {"phase": "3. Due diligence técnico-financiero", "actor": "Financiera, Infraestructura, operador de red", "output": "Facturas, consumo, cubiertas, conexión y diagnóstico"}, {"phase": "4. Validación de impacto educativo", "actor": "Bienestar, Planeación, Financiera", "output": "Modelo de fondo de becas/apoyos"}, {"phase": "5. Estructuración del vehículo", "actor": "Inversor, financiador, universidad", "output": "Modelo financiero, repago, mantenimiento y excedentes"}, {"phase": "6. Estructuración jurídica", "actor": "Jurídica, Secretaría General, Contratación", "output": "Convenio, propiedad de activos, contratación y gobernanza"}, {"phase": "7. Contratación técnica", "actor": "EPC/proveedor, interventoría, operador de red", "output": "Diseño definitivo, instalación, certificación y puesta en marcha"}, {"phase": "8. Monitoreo e impacto", "actor": "Inversor, universidad, financiador", "output": "Ahorro real, generación, becas y reportes"}], "missing_info": [{"info": "Facturas eléctricas 12–24 meses, tarifa real y tipo de usuario", "actor": "Vicerrectoría Administrativa / Financiera; comercializador"}, {"info": "Consumo por sede, demanda máxima y perfil horario", "actor": "Servicios Generales / Financiera"}, {"info": "Área útil de cubiertas, sombras, estado de techos y cargas estructurales", "actor": "Infraestructura / Planta Física"}, {"info": "Punto de conexión, capacidad disponible, medidor y tiempos de trámite", "actor": "Operador de red local"}, {"info": "Ruta jurídica, contratación, propiedad de activos y tratamiento de ahorros", "actor": "Jurídica / Secretaría General / Contratación"}, {"info": "Reglamento del fondo de becas/apoyos, población objetivo y trazabilidad", "actor": "Bienestar Universitario / Planeación"}, {"info": "Tesis de impacto, territorio y restricciones del financiador", "actor": "Financiador / Inversor"}, {"info": "Costos EPC, mantenimiento, garantías, reposición de inversores y monitoreo", "actor": "Proveedor solar / EPC / interventoría"}]};
+
+const OUTLINE = [[-77.6,8.8],[-77.1,7.2],[-77.5,5.2],[-77.2,3.9],[-76.9,2.2],[-78,0.5],[-77.3,-1.6],[-75.6,-3.6],[-73.4,-4.2],[-71.1,-3],[-69.2,-1],[-67.5,1.2],[-67,3.5],[-68,5.2],[-70.2,5.7],[-71.7,6.8],[-72.5,8.8],[-71.9,10.8],[-73.5,12],[-75,11.6],[-76.2,10.4],[-77.6,8.8]];
+const dims = [
+  ['technical','Potencial técnico-financiero','Téc.'],
+  ['education','Impacto educativo','Educ.'],
+  ['institutional','Viabilidad institucional/jurídica','Inst.'],
+  ['alignment','Alineación territorial/financiador','Alineación'],
+  ['scalability','Escalabilidad','Escala']
+];
+let activeProfile = 'base';
+let customWeights = {...DATA.profiles.base.weights};
+let selectedId = null;
+
+function project(lon,lat) {
+  const minLon=-79, maxLon=-66, minLat=-5, maxLat=13;
+  const x = 30 + (lon-minLon)/(maxLon-minLon)*400;
+  const y = 20 + (maxLat-lat)/(maxLat-minLat)*580;
+  return [x,y];
+}
+function normWeights(w) {
+  const total = Object.values(w).reduce((a,b)=>a+Number(b),0) || 1;
+  const out = {};
+  Object.keys(w).forEach(k => out[k] = Number(w[k]) * 100 / total);
+  return out;
+}
+function getWeights() { return activeProfile === 'personalizado' ? customWeights : DATA.profiles[activeProfile].weights; }
+function score(u, weights=getWeights()) {
+  const w = normWeights(weights);
+  return dims.reduce((sum,[k]) => sum + ((u[k]||0)/5)*(w[k]||0), 0);
+}
+function list() {
+  const q = (document.getElementById('searchBox')?.value || '').toLowerCase().trim();
+  return DATA.universities.map(u => ({...u, score:score(u)}))
+    .filter(u => !q || JSON.stringify(u).toLowerCase().includes(q))
+    .sort((a,b) => b.score - a.score);
+}
+function contribution(u) {
+  const w = normWeights(getWeights());
+  return dims.map(([k,label,short]) => ({key:k,label,short,raw:u[k]||0,pct:((u[k]||0)/5)*(w[k]||0)})).sort((a,b)=>b.pct-a.pct);
+}
+function colorFor(s) {
+  if (s>=78) return '#00AEEA';
+  if (s>=68) return '#49C7D7';
+  if (s>=58) return '#9AB8C8';
+  return '#C5D9E7';
+}
+function setView(id) {
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+id).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active', b.dataset.view===id));
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+document.querySelectorAll('.nav button').forEach(b => b.addEventListener('click',()=>setView(b.dataset.view)));
+
+function setupControls() {
+  const sel = document.getElementById('profileSelect');
+  sel.innerHTML = '';
+  Object.entries(DATA.profiles).forEach(([id,p]) => {
+    const opt = document.createElement('option');
+    opt.value = id; opt.textContent = p.label;
+    sel.appendChild(opt);
+  });
+  sel.value = activeProfile;
+  sel.addEventListener('change', () => {
+    activeProfile = sel.value;
+    renderAll();
+  });
+  document.getElementById('searchBox').addEventListener('input', renderAll);
+}
+
+function renderProfile() {
+  const p = DATA.profiles[activeProfile];
+  document.getElementById('profileDesc').innerHTML = `<strong>${p.label}</strong><p>${p.description}</p><p><strong>Foco:</strong> ${p.focus}</p>`;
+  document.getElementById('kpiProfile').textContent = p.label.split('/')[0].slice(0,12);
+}
+
+function renderTop(listData) {
+  const box = document.getElementById('topList');
+  box.innerHTML = '';
+  listData.slice(0,5).forEach((u,i) => {
+    const el = document.createElement('div');
+    el.className = 'u-card';
+    el.onclick = () => selectU(u.id);
+    el.innerHTML = `<div class="badge">${i+1}</div>
+      <div><h3>${u.name}</h3><div class="meta">${u.city} · ${u.department}</div></div>
+      <div class="score">${u.score.toFixed(1)}</div>`;
+    box.appendChild(el);
+  });
+  if(!selectedId || !listData.find(u=>u.id===selectedId)) selectedId = listData[0]?.id;
+  renderSelected(listData.find(u=>u.id===selectedId) || listData[0]);
+  document.getElementById('kpiScore').textContent = listData[0] ? Math.round(listData[0].score) : '--';
+}
+
+function renderSelected(u) {
+  if(!u) return;
+  const drivers = contribution(u).slice(0,3);
+  const box = document.getElementById('selectedDetail');
+  box.innerHTML = `<h3>${u.name}</h3>
+    <p>${u.territory}</p>
+    <div class="chips">${(u.tags||[]).slice(0,5).map(t=>`<span class="chip cyan">${t}</span>`).join('')}</div>
+    <div class="barrows">
+      ${drivers.map(d=>`<div class="barrow"><span>${d.short}</span><div class="track"><div class="fill" style="width:${Math.min(100,(d.raw/5)*100)}%"></div></div><span>${d.raw.toFixed(1)}</span></div>`).join('')}
+    </div>
+    <p class="note"><strong>Validación crítica:</strong> ${u.critical}</p>`;
+}
+
+function renderMap(listData) {
+  const svg = document.getElementById('map');
+  svg.innerHTML = '';
+  const d = OUTLINE.map((pt,i)=> {
+    const [x,y] = project(pt[0],pt[1]);
+    return (i?'L':'M') + x.toFixed(1) + ',' + y.toFixed(1);
+  }).join(' ') + ' Z';
+  svg.insertAdjacentHTML('beforeend', `<path class="land" d="${d}"></path>`);
+  for(let lat=-2; lat<=12; lat+=2) {
+    const [x1,y1]=project(-78.5,lat), [x2,y2]=project(-66.5,lat);
+    svg.insertAdjacentHTML('beforeend', `<line class="guide" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"></line>`);
+  }
+  for(let lon=-78; lon<=-68; lon+=2) {
+    const [x1,y1]=project(lon,12.5), [x2,y2]=project(lon,-4.5);
+    svg.insertAdjacentHTML('beforeend', `<line class="guide" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"></line>`);
+  }
+  const rank = new Map(listData.map((u,i)=>[u.id,i+1]));
+  listData.slice().reverse().forEach(u=> {
+    const [x0,y0]=project(u.lon,u.lat);
+    const x = x0 + (u.dx||0), y = y0 + (u.dy||0);
+    const r = rank.get(u.id);
+    const top = r <= 5;
+    const selected = u.id === selectedId;
+    const radius = top ? 9 : 5;
+    svg.insertAdjacentHTML('beforeend', `<circle class="point ${top?'top':''} ${selected?'selected':''}" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${radius}" fill="${colorFor(u.score)}" data-id="${u.id}"><title>${r}. ${u.name} · ${u.score.toFixed(1)}</title></circle>`);
+    if(top) svg.insertAdjacentHTML('beforeend', `<text class="rankLabel" x="${x.toFixed(1)}" y="${(y+3).toFixed(1)}">${r}</text>`);
+  });
+  svg.querySelectorAll('.point').forEach(el => el.addEventListener('click', () => selectU(el.dataset.id)));
+}
+
+function selectU(id) {
+  selectedId = id;
+  const l = list();
+  renderMap(l);
+  renderSelected(l.find(u=>u.id===id));
+}
+
+function renderWeights() {
+  const box = document.getElementById('weightsBox');
+  box.innerHTML = '';
+  const w = activeProfile === 'personalizado' ? customWeights : {...DATA.profiles[activeProfile].weights};
+  dims.forEach(([k,label]) => {
+    const row = document.createElement('div');
+    row.className = 'weightrow';
+    row.innerHTML = `<label>${label}</label><input type="range" min="0" max="50" step="1" value="${Math.round(w[k])}" data-key="${k}"><strong>${Math.round(w[k])}%</strong>`;
+    box.appendChild(row);
+  });
+  box.querySelectorAll('input').forEach(inp => {
+    inp.addEventListener('input', e => {
+      if(activeProfile !== 'personalizado') {
+        activeProfile = 'personalizado';
+        customWeights = {...w};
+        document.getElementById('profileSelect').value = 'personalizado';
+      }
+      customWeights[e.target.dataset.key] = Number(e.target.value);
+      renderAll(false);
+    });
+  });
+  const nw = normWeights(getWeights());
+  document.getElementById('weightSummary').innerHTML = `<strong>Pesos normalizados:</strong> ` + dims.map(([k,label]) => `${label} ${Math.round(nw[k])}%`).join(' · ');
+}
+
+function renderProfileGrid() {
+  const box = document.getElementById('profileGrid');
+  box.innerHTML = '';
+  Object.entries(DATA.profiles).forEach(([id,p]) => {
+    const el = document.createElement('div');
+    el.className = 'profile-card';
+    el.innerHTML = `<strong>${p.label}</strong><span>${p.focus}</span>`;
+    box.appendChild(el);
+  });
+}
+
+function renderTable(listData) {
+  const tbody = document.querySelector('#rankTable tbody');
+  tbody.innerHTML = '';
+  listData.forEach((u,i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td><strong>${i+1}</strong></td>
+      <td><strong>${u.name}</strong><div class="meta">${u.city}</div></td>
+      <td>${u.region}<div class="meta">${u.energy_zone}</div></td>
+      <td>${u.operator}<div class="meta">${u.tariff}</div></td>
+      <td><span class="scorepill">${u.score.toFixed(1)}</span></td>
+      <td>${u.technical.toFixed(1)}</td>
+      <td>${u.education.toFixed(1)}</td>
+      <td>${u.institutional.toFixed(1)}</td>
+      <td>${u.alignment.toFixed(1)}</td>
+      <td><span class="conf ${u.confidence.replace(' ','-')}">${u.confidence}</span></td>
+      <td>${u.critical}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function renderTimeline() {
+  const phases = [
+    {t:'Fase 1', items:DATA.roadmap.slice(0,2)},
+    {t:'Fase 2', items:DATA.roadmap.slice(2,4)},
+    {t:'Fase 3', items:DATA.roadmap.slice(4,6)},
+    {t:'Fase 4', items:DATA.roadmap.slice(6,8)},
+  ];
+  const box = document.getElementById('timeline');
+  box.innerHTML = phases.map(ph => `<div class="phase"><h3>${ph.t}</h3>${ph.items.map((it,idx)=>`<div class="step"><span class="snum">${it.phase.split('.')[0]}</span><div><strong>${it.phase.replace(/^\d+\.\s*/, '')}</strong><small>${it.actor}</small><small>${it.output}</small></div></div>`).join('')}</div>`).join('');
+}
+
+function renderMissing() {
+  const box = document.getElementById('missingInfo');
+  box.innerHTML = DATA.missing_info.map(m => `<div class="miss"><strong>${m.info}</strong><span>${m.actor}</span></div>`).join('');
+}
+
+function renderAll(updateControls=true) {
+  const l = list();
+  if(updateControls) renderProfile();
+  renderTop(l);
+  renderMap(l);
+  renderWeights();
+  renderProfileGrid();
+  renderTable(l);
+  renderTimeline();
+  renderMissing();
+}
+
+function exportCSV() {
+  const l = list();
+  const rows = [['ranking','universidad','ciudad','departamento','score','tecnico','educativo','institucional','alineacion','escalabilidad','confianza','validacion_critica']];
+  l.forEach((u,i)=>rows.push([i+1,u.name,u.city,u.department,u.score.toFixed(2),u.technical,u.education,u.institutional,u.alignment,u.scalability,u.confidence,u.critical]));
+  const csv = rows.map(r=>r.map(v=>`"${String(v).replaceAll('"','""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'ranking_universidades_inversor.csv'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+setupControls();
+renderAll();
+</script>
+</body>
+</html>

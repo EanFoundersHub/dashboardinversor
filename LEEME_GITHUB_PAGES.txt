@@ -1,0 +1,23 @@
+CORRECCIÓN PARA GITHUB PAGES
+
+Problema:
+Tu URL https://eanfoundershub.github.io/dashboardinversor/ muestra 404 porque el repositorio no tiene un archivo index.html en la raíz.
+
+GitHub Pages busca automáticamente:
+- index.html
+
+Pero en tu repositorio subiste:
+- dashboard_inversor_ligero_v3.html
+- dashboard_inversor_ligero_v3_ios.html
+- data_original.json
+- LEEME.txt
+
+Solución:
+1. Sube este archivo index.html a la raíz del repositorio dashboardinversor.
+2. Déjalo en la rama main.
+3. Espera 1-3 minutos a que GitHub Pages despliegue.
+4. Abre:
+   https://eanfoundershub.github.io/dashboardinversor/
+
+También puedes abrir directamente:
+https://eanfoundershub.github.io/dashboardinversor/dashboard_inversor_ligero_v3.html

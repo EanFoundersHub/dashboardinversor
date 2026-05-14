@@ -1023,7 +1023,7 @@
   "profiles": {
     "base": {
       "label": "Balance general del vehículo",
-      "description": "Ponderación inicial equilibrada para una lista corta preliminar. No asume un financiador único.",
+      "description": "Ponderación inicial equilibrada para construir una lista corta preliminar sin asumir un financiador único.",
       "weights": {
         "technical": 30,
         "education": 25,
@@ -1031,11 +1031,11 @@
         "alignment": 20,
         "scalability": 5
       },
-      "focus": "Viabilidad técnica + impacto educativo + capacidad institucional + match estratégico."
+      "focus": "Equilibra viabilidad técnico-financiera, impacto educativo, capacidad institucional y alineación estratégica."
     },
     "energetica": {
       "label": "Empresa energética / infraestructura",
-      "description": "Perfil tipo Ecopetrol, ISA, petrolera, minera o empresa de energía con interés territorial y reputacional.",
+      "description": "Perfil aplicable a empresas con interés territorial, reputacional y de transición energética.",
       "weights": {
         "technical": 25,
         "education": 15,
@@ -1043,11 +1043,11 @@
         "alignment": 30,
         "scalability": 10
       },
-      "focus": "Territorio operativo, transición energética justa, STEM, reputación y replicabilidad."
+      "focus": "Prioriza territorio operativo, transición energética justa, reputación institucional y replicabilidad."
     },
     "cooperacion": {
       "label": "Cooperación internacional climática",
-      "description": "Perfil tipo BID/BID Lab, GIZ, KfW, AFD o cooperación climática.",
+      "description": "Perfil aplicable a cooperación, multilaterales o fondos climáticos con enfoque territorial.",
       "weights": {
         "technical": 25,
         "education": 30,
@@ -1055,11 +1055,11 @@
         "alignment": 20,
         "scalability": 15
       },
-      "focus": "Adicionalidad climática, población vulnerable, transición justa y escalabilidad."
+      "focus": "Prioriza adicionalidad climática, población vulnerable, transición justa y potencial de escala."
     },
     "publico": {
       "label": "Fondo público / política energética",
-      "description": "Perfil tipo FENOGE, MinEnergía o programa público de eficiencia energética.",
+      "description": "Perfil aplicable a programas públicos de eficiencia energética, FNCER o infraestructura sostenible.",
       "weights": {
         "technical": 25,
         "education": 15,
@@ -1067,11 +1067,11 @@
         "alignment": 30,
         "scalability": 10
       },
-      "focus": "Alineación con política pública, edificios oficiales, ahorro verificable y contratación viable."
+      "focus": "Prioriza alineación con política pública, ahorro verificable, contratación viable y ejecución transparente."
     },
     "fundacion": {
-      "label": "Fundación educativa/social",
-      "description": "Perfil tipo Fundación Bolívar Davivienda, Fundación Corona, Bancolombia, Santo Domingo u otra fundación social.",
+      "label": "Fundación educativa / social",
+      "description": "Perfil aplicable a fundaciones con foco en permanencia, bienestar y acceso a oportunidades educativas.",
       "weights": {
         "technical": 15,
         "education": 40,
@@ -1079,11 +1079,11 @@
         "alignment": 15,
         "scalability": 5
       },
-      "focus": "Permanencia estudiantil, becas, vulnerabilidad, gobernanza del fondo de apoyos."
+      "focus": "Prioriza becas, permanencia estudiantil, vulnerabilidad y gobernanza del fondo de apoyos."
     },
     "blended": {
       "label": "Blended finance / inversión de impacto",
-      "description": "Mezcla de donación, deuda senior, capital catalítico y repago con ahorros energéticos.",
+      "description": "Perfil aplicable a vehículos que combinan donación, deuda, capital catalítico y repago con ahorros.",
       "weights": {
         "technical": 35,
         "education": 10,
@@ -1091,11 +1091,11 @@
         "alignment": 10,
         "scalability": 20
       },
-      "focus": "Flujo de ahorro, riesgo jurídico, capacidad de repago y portafolio replicable."
+      "focus": "Prioriza flujo de ahorro, riesgo jurídico, capacidad de repago y portafolio replicable."
     },
     "angeles": {
-      "label": "Capital privado catalítico / ángeles / family offices",
-      "description": "No como ángeles de startup clásicos, sino como capital junior, paciente o de primera pérdida en un vehículo estructurado.",
+      "label": "Capital privado catalítico",
+      "description": "Perfil aplicable a family offices, inversionistas de impacto o capital paciente dentro de un vehículo estructurado.",
       "weights": {
         "technical": 35,
         "education": 10,
@@ -1103,11 +1103,11 @@
         "alignment": 10,
         "scalability": 20
       },
-      "focus": "Retorno moderado, riesgo controlado, contrato claro, evidencia de impacto y posibilidad de escala."
+      "focus": "Prioriza retorno moderado, riesgo controlado, contrato claro, impacto verificable y escalabilidad."
     },
     "esco": {
-      "label": "ESCO / proveedor solar financiador",
-      "description": "Proveedor o empresa de servicios energéticos que instala y recupera vía contrato de desempeño o ahorros.",
+      "label": "ESCO / proveedor financiador",
+      "description": "Perfil aplicable a empresas de servicios energéticos o proveedores que recuperan inversión mediante ahorros.",
       "weights": {
         "technical": 45,
         "education": 5,
@@ -1115,11 +1115,11 @@
         "alignment": 10,
         "scalability": 15
       },
-      "focus": "Ahorro verificable, techos aptos, consumo alto, conexión y contrato de largo plazo."
+      "focus": "Prioriza ahorro verificable, consumo alto, techos aptos, conexión y contrato de largo plazo."
     },
     "personalizado": {
       "label": "Personalizado",
-      "description": "Ajusta manualmente los pesos para simular un financiador específico o una hipótesis de comité.",
+      "description": "Permite ajustar manualmente los pesos para simular una hipótesis específica de comité o financiador.",
       "weights": {
         "technical": 30,
         "education": 25,

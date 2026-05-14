@@ -1,13 +1,16 @@
-Dashboard Inversor ligero v3
+Dashboard Inversor v4 institucional
 
-Qué cambió:
-- Se separó el contenido en 4 vistas: Panorama, Metodología, Comparativo y Roadmap.
-- El mapa y el Top 5 son protagonistas en la vista inicial.
-- La tabla completa queda en una vista aparte para evitar saturación visual.
-- La metodología, pesos y perfiles de financiador quedan en una vista separada.
-- El roadmap, riesgos e información faltante quedan en una vista final.
-- Mantiene Poppins, navy, cyan y estética más limpia, alineada con la PPT.
+Cambios principales:
+- Lenguaje institucional y menos genérico.
+- Navegación más clara: Decisión, Criterios, Matriz y Roadmap.
+- Mapa reemplazado por el recurso lineal de Colombia aportado por el usuario, limpiado para uso en el dashboard.
+- Mayor interconexión: selección desde mapa, ranking o matriz actualiza la ficha de análisis.
+- Archivo index.html incluido para publicación directa en GitHub Pages.
 
-Uso:
-- Abrir dashboard_inversor_ligero_v3.html en navegador.
-- En iOS, usar dashboard_inversor_ligero_v3_ios.html o extraer el ZIP en Archivos.
+Publicación en GitHub Pages:
+1. Subir index.html a la raíz del repositorio.
+2. Mantener rama main.
+3. Esperar el despliegue y abrir la URL raíz.
+
+Nota de licencia:
+El mapa proviene del recurso subido por el usuario. Antes de publicación externa, revisar las condiciones de uso/atribución incluidas en el ZIP original.

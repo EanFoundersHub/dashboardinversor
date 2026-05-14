@@ -1,13 +1,10 @@
-Dashboard Inversor ligero v3
+DASHBOARD INVERSOR V8.1 · AJUSTE DE MAPA
 
-Qué cambió:
-- Se separó el contenido en 4 vistas: Panorama, Metodología, Comparativo y Roadmap.
-- El mapa y el Top 5 son protagonistas en la vista inicial.
-- La tabla completa queda en una vista aparte para evitar saturación visual.
-- La metodología, pesos y perfiles de financiador quedan en una vista separada.
-- El roadmap, riesgos e información faltante quedan en una vista final.
-- Mantiene Poppins, navy, cyan y estética más limpia, alineada con la PPT.
+Ajustes realizados:
+- El mapa se reposicionó más arriba y ocupa mejor el contenedor.
+- Se recalibraron las coordenadas de los marcadores para mejorar la ubicación visual.
+- Se añadieron microajustes a universidades del Caribe y otras instituciones que se estaban viendo desplazadas.
+- Se mantiene la alternancia entre Top 5 y universo completo, además de los tooltips.
 
-Uso:
-- Abrir dashboard_inversor_ligero_v3.html en navegador.
-- En iOS, usar dashboard_inversor_ligero_v3_ios.html o extraer el ZIP en Archivos.
+Publicación:
+Sube todos los archivos a la raíz del repositorio y reemplaza los anteriores.

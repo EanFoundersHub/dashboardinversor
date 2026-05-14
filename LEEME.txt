@@ -1,14 +1,8 @@
-DASHBOARD INVERSOR V9 · MAPA Y ROADMAP CORREGIDOS
+DASHBOARD INVERSOR V9.1 · AJUSTE PUNTUAL DE MAPA
 
-Cambios visibles:
-- Nuevo nombre del recurso del mapa para evitar caché del navegador.
-- Marcadores recalibrados visualmente: universidades del Caribe y principales sedes ahora quedan sobre tierra.
-- El mapa se ubica más arriba y aprovecha mejor el bloque.
-- El universo completo queda como capa opcional; por defecto se prioriza la lista corta.
-- Roadmap redistribuido: bloque principal de fases a lo ancho y tarjetas de información/riesgos en una segunda fila.
+Cambio principal:
+- Se corrigió la ubicación visual de la Universidad Surcolombiana (Neiva, Huila), que estaba desplazada hacia el suroccidente del país.
 
-Publicación:
-1. Sube todos los archivos de esta carpeta a la raíz del repositorio.
-2. Asegúrate de que index.html quede en la raíz.
-3. En GitHub Pages espera el despliegue.
-4. Haz Ctrl+F5 o abre en incógnito para evitar caché.
+Sugerencia:
+- Reemplaza todos los archivos del repositorio con esta versión.
+- Después de publicar, abre el sitio en modo incógnito o usa Ctrl + F5 para evitar caché.

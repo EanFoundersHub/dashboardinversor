@@ -1,16 +1,21 @@
-Dashboard Inversor v4 institucional
+DASHBOARD INVERSOR V6 · MAPA CON IDENTIDAD VISUAL
 
-Cambios principales:
-- Lenguaje institucional y menos genérico.
-- Navegación más clara: Decisión, Criterios, Matriz y Roadmap.
-- Mapa reemplazado por el recurso lineal de Colombia aportado por el usuario, limpiado para uso en el dashboard.
-- Mayor interconexión: selección desde mapa, ranking o matriz actualiza la ficha de análisis.
-- Archivo index.html incluido para publicación directa en GitHub Pages.
+Esta versión reemplaza el mapa anterior por una versión visual más consistente
+con la identidad del dashboard y la presentación.
+
+Archivos principales:
+- index.html
+- dashboard_inversor_v6_institucional.html
+- dashboard_inversor_v6_ios.html
+- mapa_colombia_identidad.png
+- data_original.json
 
 Publicación en GitHub Pages:
-1. Subir index.html a la raíz del repositorio.
-2. Mantener rama main.
-3. Esperar el despliegue y abrir la URL raíz.
+1. Sube TODOS los archivos de esta carpeta a la raíz del repositorio.
+2. Verifica que index.html quede directamente en la raíz.
+3. Espera el despliegue.
+4. Abre: https://eanfoundershub.github.io/dashboardinversor/
 
-Nota de licencia:
-El mapa proviene del recurso subido por el usuario. Antes de publicación externa, revisar las condiciones de uso/atribución incluidas en el ZIP original.
+Nota:
+- Esta versión solo reemplaza el recurso visual del mapa.
+- Mantiene la funcionalidad del dashboard v5.
